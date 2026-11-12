@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#18221c" />
+  <meta name="description" content="Folio: descubra seu próximo livro. Explore títulos, autores e histórias com dados da Open Library." />
+  <title>Folio — Histórias para descobrir</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- O app.js do seu exercício pode continuar na mesma pasta, sem alterações. -->
+  <script src="app.js" defer></script>
+  <script src="interface.js" defer></script>
+</head>
+<body>
+  <svg class="svg-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7.5"/><path d="m16.5 16.5 5 5"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></symbol>
+    <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M6 18 18 6M7 6h11v11"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 4.9a5.6 5.6 0 0 0-7.9 0l-.9.9-.9-.9a5.6 5.6 0 1 0-7.9 7.9L12 21l8.8-8.2a5.6 5.6 0 0 0 0-7.9Z"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h12M9 12h12M9 18h12"/><path d="M3 6h2M3 12h2M3 18h2"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M5 5 19 19M19 5 5 19"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 7.5c-2-2-5.7-2.8-9-2.3V19c3.3-.5 7 .3 9 2 2-1.7 5.7-2.5 9-2V5.2c-3.3-.5-7 .3-9 2.3Z"/><path d="M12 7.5V21"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m4 12 5 5L20 6"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m7 10 5 5 5-5"/></symbol>
+  </svg>
+
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <header class="site-header" id="siteHeader">
+    <div class="container header-content">
+      <a class="brand" href="#inicio" aria-label="Folio, voltar ao início">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span>folio<span class="brand-dot">.</span></span>
+      </a>
+      <nav class="desktop-nav" aria-label="Navegação principal">
+        <a class="nav-link is-active" href="#inicio">Início</a>
+        <a class="nav-link" href="#explorar">Explorar livros</a>
+      </nav>
+      <div class="header-actions">
+        <button class="header-search" type="button" id="headerSearch" aria-label="Pesquisar livros">
+          <svg class="icon"><use href="#i-search"/></svg>
+          <span>Buscar</span>
+          <kbd>/</kbd>
+        </button>
+        <button class="shelf-trigger" type="button" id="openShelf" aria-label="Abrir minha estante de favoritos">
+          <svg class="icon"><use href="#i-heart"/></svg>
+          <span>Minha estante</span>
+          <span class="shelf-count" id="shelfCount">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="inicio" aria-labelledby="heroTitle">
+      <div class="hero-texture" aria-hidden="true"></div>
+      <div class="hero-orbit hero-orbit-a" aria-hidden="true"></div>
+      <div class="hero-orbit hero-orbit-b" aria-hidden="true"></div>
+      <div class="container hero-layout">
+        <div class="hero-content">
+          <div class="eyebrow reveal"><span class="eyebrow-line"></span> UMA BIBLIOTECA SEM FIM <span class="eyebrow-index">01 / 02</span></div>
+          <h1 class="hero-title reveal" id="heroTitle">BOAS HISTÓRIAS<br />MERECEM SER<br /><span class="hero-title-accent">ENCONTRADAS<span class="hero-title-period">.</span></span></h1>
+          <p class="hero-description reveal">Dos clássicos aos próximos favoritos. Encontre o livro certo para o seu momento, sem complicação.</p>
+          <div class="hero-cta-row reveal">
+            <a class="primary-cta" href="#explorar"><span>Explorar biblioteca</span><span class="cta-icon"><svg class="icon"><use href="#i-arrow"/></svg></span></a>
+            <span class="hero-support"><span class="live-dot"></span> CONECTADO À OPEN LIBRARY</span>
+          </div>
+          <div class="hero-bottom-note reveal"><span class="scroll-line" aria-hidden="true"></span><span>DESLIZE PARA EXPLORAR</span></div>
+        </div>
+
+        <div class="hero-art reveal" id="heroArt" aria-label="Livros em destaque da biblioteca">
+          <div class="art-halo" aria-hidden="true"></div>
+          <div class="art-grid" aria-hidden="true"></div>
+          <div class="art-label art-label-top">SELEÇÃO / LIVROS</div>
+          <div class="art-book art-book-back" id="heroBookBack"><div class="art-fallback"><span>FOLIO<br>EDITION</span></div></div>
+          <div class="art-book art-book-mid" id="heroBookMid"><div class="art-fallback"><span>OPEN<br>LIBRARY</span></div></div>
+          <div class="art-book art-book-front" id="heroBookFront"><div class="art-fallback"><span>HISTÓRIAS<br>SEM FIM</span></div></div>
+          <div class="floating-badge"><span class="floating-badge-icon">✳</span><span>UM UNIVERSO<br>DE HISTÓRIAS</span></div>
+          <div class="art-label art-label-bottom"><span>01 — 03</span><span>DESCUBRA MAIS <svg class="icon"><use href="#i-arrow-up"/></svg></span></div>
+        </div>
+      </div>
+      <div class="hero-edge" aria-hidden="true"><span>FOLIO / DIGITAL LIBRARY</span><span>EXPLORE O QUE TE MOVE</span></div>
+    </section>
+
+    <section class="explore-section" id="explorar" aria-labelledby="exploreTitle">
+      <div class="container">
+        <div class="section-topline reveal"><span><span class="section-star">✳</span> ACERVO DIGITAL</span><span>02 / 02 — ENCONTRE SEU PRÓXIMO LIVRO</span></div>
+        <div class="explore-heading reveal">
+          <div>
+            <h2 id="exploreTitle">Sua próxima <span>leitura.</span></h2>
+            <p>Milhares de possibilidades. Comece por uma ideia.</p>
+          </div>
+          <div class="results-counter"><strong id="totalCount">—</strong><span>RESULTADOS<br>ENCONTRADOS</span></div>
+        </div>
+
+        <form class="search-form reveal" id="searchForm" role="search" autocomplete="off">
+          <label class="search-box" for="searchInput">
+            <svg class="icon"><use href="#i-search"/></svg>
+            <input id="searchInput" name="q" type="search" placeholder="Busque um título, autor ou assunto..." value="Harry Potter" maxlength="100" aria-label="Buscar livros por título, autor ou assunto" />
+            <span class="search-hint">ENTER ↵</span>
+          </label>
+          <button type="submit" class="search-submit">Pesquisar <svg class="icon"><use href="#i-arrow"/></svg></button>
+        </form>
+
+        <div class="control-line reveal">
+          <div class="topic-chips" role="group" aria-label="Buscas rápidas">
+            <button type="button" class="topic-chip is-selected" data-query="Harry Potter" aria-pressed="true">Harry Potter</button>
+            <button type="button" class="topic-chip" data-query="fantasy" aria-pressed="false">Fantasia</button>
+            <button type="button" class="topic-chip" data-query="design" aria-pressed="false">Design</button>
+            <button type="button" class="topic-chip" data-query="technology" aria-pressed="false">Tecnologia</button>
+            <button type="button" class="topic-chip" data-query="classic literature" aria-pressed="false">Clássicos</button>
+          </div>
+          <div class="view-controls">
+            <div class="sort-wrap"><label class="sr-only" for="sortSelect">Ordenar resultados</label><select id="sortSelect"><option value="relevance">Mais relevantes</option><option value="newest">Mais recentes</option><option value="oldest">Mais antigos</option><option value="editions">Mais edições</option></select><svg class="icon"><use href="#i-chevron"/></svg></div>
+            <div class="view-switch" role="group" aria-label="Modo de visualização"><button type="button" id="gridView" class="is-active" aria-label="Visualização em grade" aria-pressed="true"><svg class="icon"><use href="#i-grid"/></svg></button><button type="button" id="listView" aria-label="Visualização em lista" aria-pressed="false"><svg class="icon"><use href="#i-list"/></svg></button></div>
+          </div>
+        </div>
+
+        <div class="results-meta" aria-live="polite"><span id="resultsHeading">BUSCANDO HISTÓRIAS</span><span id="shownCount">—</span></div>
+        <div class="books-grid" id="booksGrid" aria-live="polite" aria-busy="true"></div>
+        <div class="load-more-wrap" id="loadMoreWrap" hidden><button type="button" class="load-more" id="loadMore">Mostrar mais livros <svg class="icon"><use href="#i-arrow"/></svg></button></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>folio<span class="brand-dot">.</span></div>
+      <p>Uma nova forma de encontrar sua próxima história.</p>
+      <a href="https://openlibrary.org" target="_blank" rel="noopener noreferrer">DADOS: OPEN LIBRARY <svg class="icon"><use href="#i-arrow-up"/></svg></a>
+      <span class="copyright">© 2026 FOLIO</span>
+    </div>
+  </footer>
+
+  <div class="overlay" id="overlay" hidden></div>
+  <aside class="shelf-drawer" id="shelfDrawer" role="dialog" aria-modal="true" aria-labelledby="shelfTitle" aria-hidden="true" inert>
+    <div class="drawer-heading"><div><span class="overline">SEUS FAVORITOS</span><h2 id="shelfTitle">Minha estante<span>.</span></h2></div><button type="button" class="icon-close" id="closeShelf" aria-label="Fechar estante"><svg class="icon"><use href="#i-close"/></svg></button></div>
+    <p class="drawer-intro">Guarde os livros que você quer revisitar. Seus favoritos ficam salvos neste navegador.</p>
+    <div class="shelf-items" id="shelfItems"></div>
+    <div class="drawer-bottom">LEITURAS QUE VALEM A PENA VOLTAR.</div>
+  </aside>
+
+  <section class="book-modal" id="bookModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true" inert>
+    <button class="icon-close modal-close" type="button" id="closeModal" aria-label="Fechar detalhes"><svg class="icon"><use href="#i-close"/></svg></button>
+    <div class="modal-content" id="modalContent"></div>
+  </section>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
